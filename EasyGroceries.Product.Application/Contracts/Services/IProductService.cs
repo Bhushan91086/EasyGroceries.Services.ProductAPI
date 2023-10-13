@@ -9,7 +9,7 @@ namespace EasyGroceries.Product.Application.Contracts.Services
 {
     public interface IProductService
     {
-        Task<List<ProductInfoDto>> GetProductList();
-        Task<ProductInfoDto> GetProductDetails(int id);
+        Task<ResponseDto<List<ProductInfoDto>>> GetProductList();
+        Task<ResponseDto<ProductInfoDto>> GetProductDetails(int id);
     }
 }

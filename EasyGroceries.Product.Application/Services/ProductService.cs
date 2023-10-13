@@ -19,16 +19,40 @@ namespace EasyGroceries.Product.Application.Services
             _mediator = mediator;
         }
 
-        public async Task<ProductInfoDto> GetProductDetails(int id)
+        public async Task<ResponseDto<ProductInfoDto>> GetProductDetails(int id)
         {
-            var productInfo = await _mediator.Send(new GetProductInfoRequest() { Id = id });
-            return productInfo;
+            ResponseDto<ProductInfoDto> response = new ResponseDto<ProductInfoDto>();
+
+            try
+            {
+                var productInfo = await _mediator.Send(new GetProductInfoRequest() { Id = id });
+                response.Result = productInfo;
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+            }
+
+            return response;
         }
 
-        public async Task<List<ProductInfoDto>> GetProductList()
+        public async Task<ResponseDto<List<ProductInfoDto>>> GetProductList()
         {
-            var productInfos = await _mediator.Send(new GetProductInfoListRequest());
-            return productInfos;
+            ResponseDto<List<ProductInfoDto>> response = new ResponseDto<List<ProductInfoDto>>();
+
+            try
+            {
+                var productInfos = await _mediator.Send(new GetProductInfoListRequest());
+                response.Result = productInfos;
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+            }
+
+            return response;
         }
     }
 }

@@ -21,18 +21,36 @@ namespace EasyGroceries.Services.ProductAPI.Controllers
 
         // GET: api/<ProductController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductInfoDto>>> GetProducts()
+        public async Task<ResponseDto<List<ProductInfoDto>>> GetProducts()
         {
-            var productInfos = await _productService.GetProductList();
-            return Ok(productInfos);
+            var response = await _productService.GetProductList();
+            if (!response.IsSuccess)
+            {
+                response.Status = StatusCodes.Status500InternalServerError;
+            }
+            else
+            {
+                response.Status = StatusCodes.Status200OK;
+            }
+
+            return response;
         }
 
         // GET api/<ProductController>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ProductInfoDto>> GetProductById(int id)
+        public async Task<ResponseDto<ProductInfoDto>> GetProductById(int id)
         {
-            var productInfo = await _productService.GetProductDetails(id);
-            return Ok(productInfo);
+            var response = await _productService.GetProductDetails(id);
+            if (!response.IsSuccess)
+            {
+                response.Status = StatusCodes.Status500InternalServerError;
+            }
+            else
+            {
+                response.Status = StatusCodes.Status200OK;
+            }
+
+            return response;
         }
     }
 }
